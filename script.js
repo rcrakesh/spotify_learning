@@ -22,7 +22,7 @@ function secondsToMinuteSeconds(seconds) {
 
 async function getsongs(folder) {
     currentfolder = folder;
-    let a = await fetch(`http://127.0.0.1:5500/${folder}/`)
+    let a = await fetch(`/${folder}/`)
     let response = await a.text();
     let div = document.createElement("div");
     div.innerHTML = response;
@@ -138,18 +138,46 @@ async function main() {
                 playMusic(songs[index - 1])
             }
         })
-        // for next song
+        //     // for next song
+        // next.addEventListener("click", () => {
+        //         currentsong.pause()
+        //         console.log("next clicked")
+
+
+    //         let index = songs.indexOf(currentsong.src.split("/").slice(-1)[0]);
+    //         if ((index + 1) >= 0) {
+    //             playMusic(songs[index + 1])
+    //         }
+    //     })
+
     next.addEventListener("click", () => {
-            currentsong.pause()
-            console.log("next clicked")
+        currentsong.pause(); // Pause the current song
+        console.log("next clicked");
+
+        let index = songs.indexOf(currentsong.src.split("/").slice(-1)[0]);
+
+        // Check if the next song exists
+        if (index + 1 < songs.length) {
+            // If there is a next song, play it
+            playMusic(songs[index + 1]);
+        } else {
+            // If it's the last song, loop back to the first song
+            playMusic(songs[0]);
+        }
+    });
+
+    // // click on the card and open the left bar
+    // document.querySelectorAll(".card").forEach(card => {
+    //     card.addEventListener("click", e => {
 
 
-            let index = songs.indexOf(currentsong.src.split("/").slice(-1)[0]);
-            if ((index + 1) >= 0) {
-                playMusic(songs[index + 1])
-            }
-        })
-        // volume button;
+    //     });
+    // });
+
+
+
+
+    // volume button;
     document.querySelector(".range").getElementsByTagName("input")[0].addEventListener("change", (e) => {
             console.log(e, e.target, e.target.value)
             currentsong.volume = parseInt(e.target.value) / 100;
@@ -174,13 +202,13 @@ async function main() {
 
             })
         })
-        // to open the toggle part of hamburger
-    document.querySelector(".card").forEach(e => {
-        e.addEventListener("click", async item => {
-            document.querySelector(".left").style.left = "0";
+        //     // to open the toggle part of hamburger
+        // document.querySelector(".card").forEach(e => {
+        //     e.addEventListener("click", async item => {
+        //         document.querySelector(".left").style.left = "0";
 
-        })
-    })
+    //     })
+    // })
 
     // document.querySelector(".hamburger").addEventListener("click", () => {
     //     document.querySelector(".left").style.left = "0";
